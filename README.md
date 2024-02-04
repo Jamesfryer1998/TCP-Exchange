@@ -32,15 +32,21 @@ cmake --build build
 ctest --test-dir build --output-on-failure
 ```
 
-Running the server:  `./build/server/server-run`
-Running the client: `./build/client/client-run`
-
 ## Usage
-To use the platform, run the executable:
+To use the platform, run the following executables:
+
+Server - 
 
 ```
-`./build/apps/crypto-platform-app`
+`./build/server/server-run`
 ```
+
+Client - 
+
+```
+`./build/client/client-run`
+```
+
 
 This will start the platform and display the main menu.
 
