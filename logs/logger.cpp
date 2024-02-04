@@ -1,0 +1,1 @@
+// creates a new dir for each day of logs in "logs" dir
