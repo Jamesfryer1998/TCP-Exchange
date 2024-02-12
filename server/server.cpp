@@ -8,7 +8,6 @@ int main()
     Interface interface;
 
     server.startServer();
-    server.receiveData();
 
     orderbook.loadOrderBook("20200317.csv");
     interface.Init(orderbook);
