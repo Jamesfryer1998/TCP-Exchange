@@ -11,7 +11,7 @@ NetworkClient::NetworkClient() : clientSocket(-1)
 
 NetworkClient::~NetworkClient()
 {
-    stopClient();
+    // stopClient();
 }
 
 int NetworkClient::startClient() {

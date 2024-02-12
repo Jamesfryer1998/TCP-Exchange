@@ -11,7 +11,7 @@ NetworkServer::NetworkServer()
 
 NetworkServer::~NetworkServer() 
 {
-    stopServer();
+    // stopServer();
 }
 
 int NetworkServer::startServer() 
@@ -113,5 +113,5 @@ void NetworkServer::sendData(const char* data)
     }
 
     // Close client socket
-    close(clientSocket);
+    // close(clientSocket);
 }

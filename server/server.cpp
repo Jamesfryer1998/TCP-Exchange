@@ -7,10 +7,8 @@ int main()
     OrderBook orderbook;
     Interface interface;
 
+    orderbook.loadOrderBook("20200317.csv");
+
     server.startServer();
     server.receiveData();
-
-    orderbook.loadOrderBook("20200317.csv");
-    interface.Init(orderbook);
-    // std::cout << serverConn << std::endl;
 }
