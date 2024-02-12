@@ -6,15 +6,14 @@
 
 int main()
 {
-    NetworkClient client;
     Interface interface;
+    NetworkClient client;
+    OrderBook orderbook;
 
-    if (client.startClient("127.0.0.1", 12345) == 0) {
-        // Successfully connected to the server
-        client.sendData("Hello from the client!");
-    }
+    client.startClient("127.0.0.1", 12345);
+        
+    interface.Init(orderbook, &client);
+
     return 0;
-    // client.sendData("hello");
 
-    // interface.Init(orderbook);
 }

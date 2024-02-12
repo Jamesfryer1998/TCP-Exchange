@@ -2,6 +2,13 @@
 
 NetworkClient::NetworkClient() : clientSocket(-1) {}
 
+NetworkClient::~NetworkClient() {
+    // Close the socket when the object is destroyed
+    if (clientSocket != -1) {
+        close(clientSocket);
+    }
+}
+
 int NetworkClient::startClient(const std::string& serverIP, int port) {
     // Create a socket
     clientSocket = socket(AF_INET, SOCK_STREAM, 0);
@@ -19,6 +26,7 @@ int NetworkClient::startClient(const std::string& serverIP, int port) {
     if (connect(clientSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) == -1) {
         std::cerr << "Error connecting to server" << std::endl;
         close(clientSocket);
+        clientSocket = -1;
         return -1;
     }
 

@@ -8,6 +8,7 @@
 class NetworkClient {
 public:
     NetworkClient();
+    ~NetworkClient();
 
     int startClient(const std::string& serverIP, int port);
     void sendData(const std::string& data);

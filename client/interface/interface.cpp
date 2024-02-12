@@ -1,18 +1,25 @@
 
 #include "interface.h"
 #include "MatchingSystem.h"
+#include "networkClient.h"
 
 #include <iostream>
 #include <string>
 
 Interface::Interface(){
-    
+
 };
 
-void Interface::Init(OrderBook orderBook){
+Interface::~Interface(){
+
+};
+
+
+void Interface::Init(OrderBook orderBook, NetworkClient *clientObject){
     system("clear");
     std::cout << "Welcome to the Fastest C++ Exchange out there!" << std::endl;
     Interface::orderBook = orderBook;
+    client = *clientObject;
     int userInput;
     printMenu();
 
@@ -31,6 +38,7 @@ void Interface::printMenu()
     std::cout << "3: Submit an Order" << std::endl; 
     std::cout << "4: Wallet Stats" << std::endl; 
     std::cout << "5: Exchange Status" << std::endl; 
+    std::cout << "6: Exit" << std::endl;
     std::cout << "==================\n" << std::endl;
     // std::cout << "Current time: " << currentTime << std::endl;
 };
@@ -55,11 +63,11 @@ int Interface::getUserInput(){
 void Interface::printStats(std::string type){
     if (type == "User")
     {
-        Interface::printUserStats();
+        printUserStats();
     }
     else if (type == "Exchange")
     {
-        Interface::printExchangeStats();
+        printExchangeStats();
     }
 };
 
@@ -68,6 +76,7 @@ void Interface::printUserStats(){
     std::cout << "Username: X" << std::endl;
     std::cout << "Wallet amount: X" << std::endl;
     std::cout << "Trade count: X" << std::endl;
+    client.sendData("User Stats");
 };
 
 void Interface::printExchangeStats(){
@@ -76,9 +85,13 @@ void Interface::printExchangeStats(){
     std::cout << "OrderBook size: X" << std::endl;
     std::cout << "OrderBook Data Range: X" << std::endl;
     std::cout << "Total Trade count: X" << std::endl;
+    client.sendData("Exchange Stats");
+
 };
 
 void Interface::exchangeStatus(){
+    client.sendData("Exchange Status");
+
     std::cout << "Info about the Exchange (uptime etc, will go here)" << std::endl;
 };
 
@@ -87,6 +100,7 @@ void Interface::invalidChoice(){
 };
 
 void Interface::makeOrder() {
+    client.sendData("make order");
     displayOrderOptions();
     getUserOrderType();
 
@@ -235,6 +249,9 @@ void Interface::handleInvalidProduct() {
 // };
 
 void Interface::walletState(){
+    client.sendData("Wallet State"); // This will return a wallet object
+                                     // Client will send Unique ID 
+
     std::cout << "\n===================================" << std::endl;
     std::cout << "Welcome to your Wallet." << std::endl;
     std::cout << "Please select one of the following: " << std::endl;
@@ -292,6 +309,9 @@ void Interface::processUserInput(int userInput){
             exchangeStatus();
             break;
         case 6:
+            delete this;
+            break;
+        case 7:
             invalidChoice();
             break;
     }

@@ -1,5 +1,6 @@
 #pragma once 
 
+#include "networkClient.h"
 #include "OrderBook.h"
 #include "Order.h"
 #include "../../shared/util/CSVReader.h"
@@ -11,12 +12,14 @@
 class Interface{
     public:
         Interface();
-        void Init(OrderBook orderBook);
+        ~Interface();
+        void Init(OrderBook orderBook,
+                  NetworkClient *client);
 
-        static void printMenu();
-        static void printStats(std::string type);
-        static void printUserStats();
-        static void printExchangeStats();
+        void printMenu();
+        void printStats(std::string type);
+        void printUserStats();
+        void printExchangeStats();
         void invalidChoice();
         void processUserInput(int userInput);
         void exchangeStatus();
@@ -37,7 +40,7 @@ class Interface{
         void handleInvalidProduct();
         void getOrderDetails();
 
-
+        NetworkClient client;
         OrderBook orderBook;
         Wallet wallet;
 

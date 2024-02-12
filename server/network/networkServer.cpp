@@ -58,8 +58,21 @@ void NetworkServer::stopServer() {
 }
 
 void NetworkServer::handleConnection(int clientSocket) {
-    // Receive and process data from the client
-    // Implement your logic here...
-    // Remember to close the client socket when done
+    while (true) {
+        // Receive and process data from the client
+        char buffer[1024];
+        ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
+        if (bytesRead == -1) {
+            std::cerr << "Error receiving data" << std::endl;
+            break;
+        } else if (bytesRead == 0) {
+            std::cout << "Client disconnected" << std::endl;
+            break;
+        }
+
+        std::cout << "Received data from client: " << buffer << std::endl;
+    }
+
+    // Close the client socket
     close(clientSocket);
 }
