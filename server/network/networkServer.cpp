@@ -2,7 +2,19 @@
 
 NetworkServer::NetworkServer() : serverSocket(-1), isRunning(false) {}
 
+<<<<<<< HEAD
 int NetworkServer::startServer() {
+=======
+}
+
+NetworkServer::~NetworkServer() 
+{
+    // stopServer();
+}
+
+int NetworkServer::startServer() 
+{
+>>>>>>> main
     // Create a socket
     serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket == -1) {
@@ -73,6 +85,52 @@ void NetworkServer::handleConnection(int clientSocket) {
         std::cout << "Received data from client: " << buffer << std::endl;
     }
 
+<<<<<<< HEAD
     // Close the client socket
     close(clientSocket);
+=======
+    // Receive data from the client
+    char buffer[1024];
+    ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
+    if (bytesRead == -1) {
+        std::cerr << "Error receiving data" << std::endl;
+        close(serverSocket);
+        close(clientSocket);
+        return;
+    }
+
+    std::cout << "Received data from client: " << buffer << std::endl;
+
+    // Send a response to the client
+    const char* response = "Hello from the server!";
+    ssize_t bytesSent = send(clientSocket, response, strlen(response), 0);
+    if (bytesSent == -1) {
+        std::cerr << "Error sending data" << std::endl;
+    }
+}
+
+void NetworkServer::sendData(const char* data) 
+{
+    if (serverSocket == -1) {
+        std::cerr << "Error: Server not running." << std::endl;
+        return;
+    }
+
+    // Accept a connection
+    int clientSocket = accept(serverSocket, nullptr, nullptr);
+    if (clientSocket == -1) {
+        std::cerr << "Error accepting connection" << std::endl;
+        close(serverSocket);
+        return;
+    }
+
+    // Send data to the client
+    ssize_t bytesSent = send(clientSocket, data, strlen(data), 0);
+    if (bytesSent == -1) {
+        std::cerr << "Error sending data" << std::endl;
+    }
+
+    // Close client socket
+    // close(clientSocket);
+>>>>>>> main
 }
