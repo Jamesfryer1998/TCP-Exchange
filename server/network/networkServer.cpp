@@ -89,9 +89,6 @@ void NetworkServer::receiveData()
     if (bytesSent == -1) {
         std::cerr << "Error sending data" << std::endl;
     }
-
-    // Close client socket
-    // close(clientSocket);
 }
 
 void NetworkServer::sendData(const char* data) 

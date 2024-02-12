@@ -1,4 +1,6 @@
 #include "interface/interface.h"
+#include "OrderBook.h"
+
 #include "networkServer.h"
 #include "networkClient.h"
 

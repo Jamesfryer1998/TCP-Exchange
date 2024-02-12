@@ -4,11 +4,13 @@
 int main()
 {
     NetworkServer server;
+    OrderBook orderbook;
     Interface interface;
 
     server.startServer();
     server.receiveData();
 
-    // interface.Init(orderbook);
+    orderbook.loadOrderBook("20200317.csv");
+    interface.Init(orderbook);
     // std::cout << serverConn << std::endl;
 }
