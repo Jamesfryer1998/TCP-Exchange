@@ -13,6 +13,7 @@ public:
     int startClient(const std::string& serverIP, int port);
     void sendData(const std::string& data);
     void requestData(const int userInput);
+    std::string receiveData(int serverSocket);
 
 private:
     int clientSocket;

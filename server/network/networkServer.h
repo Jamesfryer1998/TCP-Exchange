@@ -25,7 +25,6 @@ private:
     void makeOrder();
     void returnWalletStats();
     void returnExchangeStatus();
-
 };
 
 #endif // NETWORK_SERVER_H

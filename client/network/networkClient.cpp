@@ -44,6 +44,18 @@ void NetworkClient::sendData(const std::string& data)
     }
 }
 
+std::string NetworkClient::receiveData(int serverSocket) 
+{
+    char buffer[1024];
+    ssize_t bytesRead = recv(serverSocket, buffer, sizeof(buffer), 0);
+    if (bytesRead == -1) {
+        std::cerr << "Error receiving data" << std::endl;
+        return json::object(); // Return empty JSON object on error
+    }
+    buffer[bytesRead] = '\0'; // Null-terminate received data
+    return json::parse(buffer); // Parse received JSON data
+}
+
 void NetworkClient::requestData(const int userInput)
 {
     // Send the integer data to the server
@@ -51,4 +63,6 @@ void NetworkClient::requestData(const int userInput)
     if (bytesSent == -1) {
         std::cerr << "Error sending data" << std::endl;
     }
+
+    recieveData(clientSocket);
 }

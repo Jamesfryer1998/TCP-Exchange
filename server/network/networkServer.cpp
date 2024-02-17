@@ -2,7 +2,8 @@
 
 NetworkServer::NetworkServer() : serverSocket(-1), isRunning(false) {}
 
-int NetworkServer::startServer() {
+int NetworkServer::startServer() 
+{
     // Create a socket
     serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket == -1) {
@@ -60,11 +61,13 @@ int NetworkServer::startServer() {
     return 0;
 }
 
-void NetworkServer::stopServer() {
+void NetworkServer::stopServer() 
+{
     isRunning = false;
 }
 
-bool NetworkServer::setSocketReuseAddr(int socketFd) {
+bool NetworkServer::setSocketReuseAddr(int socketFd) 
+{
     int enable = 1;
     if (setsockopt(socketFd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(enable)) < 0) {
         perror("setsockopt(SO_REUSEADDR) failed");
@@ -73,7 +76,8 @@ bool NetworkServer::setSocketReuseAddr(int socketFd) {
     return true;
 }
 
-void NetworkServer::handleConnection(int clientSocket) {
+void NetworkServer::handleConnection(int clientSocket) 
+{
     while (true) {
         // Receive and process data from the client
         int recievedInput;
