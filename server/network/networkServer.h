@@ -17,7 +17,15 @@ public:
     void stopServer();
 
 private:
+    bool setSocketReuseAddr(int socketFd);
     void handleConnection(int clientSocket);
+    void mainSwitch(const int recievedInput);
+    void returnUserStats();
+    void returnExchangeStats();
+    void makeOrder();
+    void returnWalletStats();
+    void returnExchangeStatus();
+
 };
 
 #endif // NETWORK_SERVER_H

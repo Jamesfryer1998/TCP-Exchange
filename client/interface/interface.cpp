@@ -76,7 +76,6 @@ void Interface::printUserStats(){
     std::cout << "Username: X" << std::endl;
     std::cout << "Wallet amount: X" << std::endl;
     std::cout << "Trade count: X" << std::endl;
-    client.sendData("User Stats");
 };
 
 void Interface::printExchangeStats(){
@@ -85,22 +84,21 @@ void Interface::printExchangeStats(){
     std::cout << "OrderBook size: X" << std::endl;
     std::cout << "OrderBook Data Range: X" << std::endl;
     std::cout << "Total Trade count: X" << std::endl;
-    client.sendData("Exchange Stats");
 
 };
 
-void Interface::exchangeStatus(){
-    client.sendData("Exchange Status");
-
+void Interface::exchangeStatus()
+{
     std::cout << "Info about the Exchange (uptime etc, will go here)" << std::endl;
 };
 
-void Interface::invalidChoice(){
+void Interface::invalidChoice()
+{
     std::cout << "Invalid Choice. Please seletct a number from 1-5." << std::endl;
 };
 
-void Interface::makeOrder() {
-    client.sendData("make order");
+void Interface::makeOrder() 
+{
     displayOrderOptions();
     getUserOrderType();
 
@@ -248,10 +246,8 @@ void Interface::handleInvalidProduct() {
 //     );
 // };
 
-void Interface::walletState(){
-    client.sendData("Wallet State"); // This will return a wallet object
-                                     // Client will send Unique ID 
-
+void Interface::walletState()
+{
     std::cout << "\n===================================" << std::endl;
     std::cout << "Welcome to your Wallet." << std::endl;
     std::cout << "Please select one of the following: " << std::endl;
@@ -294,18 +290,23 @@ void Interface::processUserInput(int userInput){
             invalidChoice();
             break;
         case 1:
+            client.requestData(userInput);
             printStats("User");
             break;
         case 2:
+            client.requestData(userInput);
             printStats("Exchange");
             break;
         case 3:
+            client.requestData(userInput);
             makeOrder();
             break;
         case 4:
+            client.requestData(userInput);
             walletState();
             break;
         case 5:
+            client.requestData(userInput);
             exchangeStatus();
             break;
         case 6:

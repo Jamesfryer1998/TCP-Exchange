@@ -2,24 +2,19 @@
 
 NetworkServer::NetworkServer() : serverSocket(-1), isRunning(false) {}
 
-<<<<<<< HEAD
 int NetworkServer::startServer() {
-=======
-}
-
-NetworkServer::~NetworkServer() 
-{
-    // stopServer();
-}
-
-int NetworkServer::startServer() 
-{
->>>>>>> main
     // Create a socket
     serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket == -1) {
         std::cerr << "Error creating socket" << std::endl;
         return -1;
+    }
+
+    // Set socket option SO_REUSEADDR
+    if (!setSocketReuseAddr(serverSocket)) {
+        std::cerr << "Failed to set SO_REUSEADDR option" << std::endl;
+        close(serverSocket);
+        return 1;
     }
 
     int port = 12345;
@@ -69,11 +64,20 @@ void NetworkServer::stopServer() {
     isRunning = false;
 }
 
+bool NetworkServer::setSocketReuseAddr(int socketFd) {
+    int enable = 1;
+    if (setsockopt(socketFd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(enable)) < 0) {
+        perror("setsockopt(SO_REUSEADDR) failed");
+        return false;
+    }
+    return true;
+}
+
 void NetworkServer::handleConnection(int clientSocket) {
     while (true) {
         // Receive and process data from the client
-        char buffer[1024];
-        ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
+        int recievedInput;
+        ssize_t bytesRead = recv(clientSocket, &recievedInput, sizeof(recievedInput), 0);
         if (bytesRead == -1) {
             std::cerr << "Error receiving data" << std::endl;
             break;
@@ -81,56 +85,64 @@ void NetworkServer::handleConnection(int clientSocket) {
             std::cout << "Client disconnected" << std::endl;
             break;
         }
-
-        std::cout << "Received data from client: " << buffer << std::endl;
+        
+        mainSwitch(recievedInput);
     }
 
-<<<<<<< HEAD
     // Close the client socket
     close(clientSocket);
-=======
-    // Receive data from the client
-    char buffer[1024];
-    ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
-    if (bytesRead == -1) {
-        std::cerr << "Error receiving data" << std::endl;
-        close(serverSocket);
-        close(clientSocket);
-        return;
-    }
-
-    std::cout << "Received data from client: " << buffer << std::endl;
-
-    // Send a response to the client
-    const char* response = "Hello from the server!";
-    ssize_t bytesSent = send(clientSocket, response, strlen(response), 0);
-    if (bytesSent == -1) {
-        std::cerr << "Error sending data" << std::endl;
-    }
 }
 
-void NetworkServer::sendData(const char* data) 
+void NetworkServer::mainSwitch(const int recievedInput)
 {
-    if (serverSocket == -1) {
-        std::cerr << "Error: Server not running." << std::endl;
-        return;
+    switch (recievedInput) {
+    case 1:
+        returnUserStats();
+        break;
+    case 2:
+        returnExchangeStats();
+        break;
+    case 3:
+        makeOrder();
+        break;
+    case 4:
+        returnWalletStats();
+        break;
+    case 5:
+        returnExchangeStatus();
+        break;
+    case 6:
+        delete this;
+        break;
     }
+};
 
-    // Accept a connection
-    int clientSocket = accept(serverSocket, nullptr, nullptr);
-    if (clientSocket == -1) {
-        std::cerr << "Error accepting connection" << std::endl;
-        close(serverSocket);
-        return;
-    }
+void NetworkServer::returnUserStats()
+{
+    std::cout << "Processing User Stats" << std::endl;
+}
 
-    // Send data to the client
-    ssize_t bytesSent = send(clientSocket, data, strlen(data), 0);
-    if (bytesSent == -1) {
-        std::cerr << "Error sending data" << std::endl;
-    }
+void NetworkServer::returnExchangeStats()
+{
+    std::cout << "Processing Exchange Stats" << std::endl;
+    // Num orders
+    // Num products
+    // Total spent, bought, sold etc...
+}
 
-    // Close client socket
-    // close(clientSocket);
->>>>>>> main
+void NetworkServer::makeOrder()
+{
+    std::cout << "Processing making an order" << std::endl;
+}
+
+void NetworkServer::returnWalletStats()
+{
+    std::cout << "Processing Wallet Stats" << std::endl;
+}
+
+void NetworkServer::returnExchangeStatus()
+{
+    std::cout << "Processing Exchange Status" << std::endl;
+    // Is exchange live?
+
 }

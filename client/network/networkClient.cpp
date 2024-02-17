@@ -2,7 +2,8 @@
 
 NetworkClient::NetworkClient() : clientSocket(-1) {}
 
-NetworkClient::~NetworkClient() {
+NetworkClient::~NetworkClient() 
+{
     // Close the socket when the object is destroyed
     if (clientSocket != -1) {
         close(clientSocket);
@@ -10,6 +11,7 @@ NetworkClient::~NetworkClient() {
 }
 
 int NetworkClient::startClient(const std::string& serverIP, int port) {
+
     // Create a socket
     clientSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (clientSocket == -1) {
@@ -33,9 +35,19 @@ int NetworkClient::startClient(const std::string& serverIP, int port) {
     return 0;
 }
 
-void NetworkClient::sendData(const std::string& data) {
+void NetworkClient::sendData(const std::string& data) 
+{
     // Send data to the server
     ssize_t bytesSent = send(clientSocket, data.c_str(), data.size(), 0);
+    if (bytesSent == -1) {
+        std::cerr << "Error sending data" << std::endl;
+    }
+}
+
+void NetworkClient::requestData(const int userInput)
+{
+    // Send the integer data to the server
+    ssize_t bytesSent = send(clientSocket, &userInput, sizeof(userInput), 0);
     if (bytesSent == -1) {
         std::cerr << "Error sending data" << std::endl;
     }
